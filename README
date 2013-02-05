@@ -1,0 +1,39 @@
+attactv: XBMC video plugin to watch the ATTAC alter-videos from ATTAC TV web site.
+
+   Copyright (C) 2013 Jose Antonio Montes (jamontes)
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+Initial release 0.0.5
+
+This XBMC plugin allows to watch the videos from the ATTAC TV web site.
+
+The ATTAC TV web site has its videos hosted at several platforms, as Youtube, Vimeo, and BlipTV,
+so this plugin requires those great three plugins from The Creative to be installed to work (don't worry if you
+don't have them installed at the time of installation: XBMC will do it automatically for you). 
+
+Through the Add-on settings you can configure the language prefered to watch the videos.
+The ATTAC TV web site supports four languages (and so the plugin does): Spanish, English, French, and German.
+If your GUI language is one of these, then you don't have to do anything into the settings to watch the videos,
+except maybe to activate the subtitles with your prefered language into the Youtube video plugin. 
+
+This is the first release of the plugin, so there are some sources for videos not yet supported, as those from the spanish RTVE.
+
+To install it simply download the zip file, and then proceed as with any other plugin from XBMC:
+ System->Settings->Add-ons->Install from zip file.
+
+Any issues detected can be reported using this forum thread for support: URL
+
+Enjoy it!

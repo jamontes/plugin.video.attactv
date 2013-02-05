@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.attactv" name="attac tv" version="0.0.5" provider-name="jamontes">
+    <requires>
+        <import addon="xbmc.python" version="2.0"/>
+        <import addon="plugin.video.youtube" version="3.3.0"/>
+        <import addon="plugin.video.vimeo" version="2.4.0"/>
+        <import addon="plugin.video.bliptv" version="0.7.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">ATTAC TV. Another TV is possible</summary>
+        <description lang="en">ATTAC - another world is possible. This plugin allows to watch the videos and documentals from the ATTAC TV site.</description>
+        <summary lang="es">ATTAC TV. Otra TV es posible</summary>
+        <description lang="es">ATTAC TV. Canal para ver los documentales online desde la web de attac.tv</description>
+        <summary lang="fr">ATTAC TV. Autre TV est possible</summary>
+        <description lang="fr">Fondée en 1998, Attac appelle à « désarmer les marchés financiers ». Une exigence aujourd'hui plus que jamais d'actualité.[CR]Ce plugin permet de regarder les vidéos qui se trouve sur le site web de ATTAC TV.</description>
+        <summary lang="de">ATTAC TV. Ein weiterer TV ist möglich</summary>
+        <description lang="de">Aktionsinfos vom globalisierungskritischen Netzwerk Attac.</description>
+        <language>en es fr de</language>
+    </extension>
+</addon>

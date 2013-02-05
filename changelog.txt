@@ -1,0 +1,17 @@
+0.0.5
+- Internationalization support for Spanish, English, French and German.
+- Video language is selected from Add-on settings.
+- Added support for kontexttv.
+- Suported debug option from plugin settings. Now debug is disabled by default.
+- Modified plugin description.
+- Scaled fanart and icon images according to add-ons standards.
+- Added language tag into addon.xml to allow add-ons search by language.
+0.0.4
+- Updated function libs whith no API errors.
+0.0.3
+- Supported videos from bliptv.
+0.0.2
+- Added plugins youtube, vimeo and bliptv
+- Suported videos from youtube and vimeo on Openelec with Rapsberry Pi
+0.0.1
+- First Try
