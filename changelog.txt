@@ -1,3 +1,6 @@
+0.0.6
+- Modified README and addon.xml files for better descriptions.
+- Modified the logo.png file.
 0.0.5
 - Internationalization support for Spanish, English, French and German.
 - Video language is selected from Add-on settings.
