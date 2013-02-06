@@ -14,7 +14,7 @@
 0.0.3
 - Supported videos from bliptv.
 0.0.2
-- Added plugins youtube, vimeo and bliptv
-- Suported videos from youtube and vimeo on Openelec with Rapsberry Pi
+- Added plugins required for youtube, vimeo and bliptv.
+- Suported videos from youtube and vimeo on Openelec with Rapsberry Pi.
 0.0.1
-- First Try
+- First Try.
