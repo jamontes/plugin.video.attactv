@@ -19,7 +19,7 @@
 
    Description:
    These funtions are called from the main plugin module, aimed to ease and simplify the plugin development process.
-   Release 0.1.2
+   Release 0.1.3
 '''
 
 # First of all We must import all the libraries used for plugin development.
@@ -70,6 +70,10 @@ def get_plugin_parms():
     _log("get_plugin_parms " + repr(options))
     return options
 
+# This function returns the URL decoded.
+def get_url_decoded(url):
+    _log('get_url_decoded URL: "%s"' % url)
+    return urllib.unquote_plus(url)
 
 # This function loads the html code from a webserver and returns it into a string.
 def carga_web(url):
@@ -78,6 +82,21 @@ def carga_web(url):
     MiReq = urllib2.Request(url) # We use the Request method because we need to add a header into the HTTP GET to the web site.
     # We have to tell the web site we are using a real browser.
     MiReq.add_header('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0') # This is a true Firefox header.
+    MiConex = urllib2.urlopen(MiReq) # We open the HTTP connection to the URL.
+    MiHTML = MiConex.read() # We load all the HTML contents from the web page and store it into a var.
+    MiConex.close() # We close the HTTP connection as we have all the info required.
+
+    return MiHTML
+
+
+# This function loads the html code from the Dailymotion webserver and returns it into a string.
+def carga_web_dailymotion(url):
+    _log("carga_web_dailymotion " + url)
+
+    MiReq = urllib2.Request(url) # We use the Request method because we need to add a header into the HTTP GET to the web site.
+    # We have to tell the web site we are using a real browser.
+    MiReq.add_header('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0') # This is a true Firefox header.
+    MiReq.add_header('Cookie', 'lang=en_EN; family_filter=off')
     MiConex = urllib2.urlopen(MiReq) # We open the HTTP connection to the URL.
     MiHTML = MiConex.read() # We load all the HTML contents from the web page and store it into a var.
     MiConex.close() # We close the HTTP connection as we have all the info required.

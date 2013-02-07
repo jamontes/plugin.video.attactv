@@ -109,7 +109,7 @@ def play_video(params):
     lutil.log("attactv.play "+repr(params))
 
     # Here we define the list of video sources supported.
-    video_sources = ('youtube', 'vimeo', 'bliptv', 'kontexttv')
+    video_sources = ('youtube', 'vimeo', 'bliptv', 'kontexttv', 'dailymotion')
     buffer_link = lutil.carga_web(params.get("url"))
     for  source in video_sources:
         video_url = eval("get_playable_%s_url(buffer_link)" % source)
@@ -125,14 +125,22 @@ def play_video(params):
 
 # This function try to get a Youtube playable URL from the weblink and returns it ready to call the Youtube plugin.
 def get_playable_youtube_url(html):
-    pattern_youtube = '<param name="movie" value="http://www.youtube.com/v/([0-9A-Za-z_-]{11})[^>]+>'
-    video_id = lutil.find_first(html, pattern_youtube)
+    pattern_youtube1 = '<param name="movie" value="http://www.youtube.com/v/([0-9A-Za-z_-]{11})[^>]+>'
+    pattern_youtube2 = ' src="http://www.youtube.com/embed/([0-9A-Za-z_-]{11})"'
+
+    video_id = lutil.find_first(html, pattern_youtube1)
     if video_id:
-        lutil.log("attactv.play: We have found this Youtube video: %s and let's going to play it!" % video_id)
+        lutil.log("attactv.play: We have found this Youtube video with pattern1: %s and let's going to play it!" % video_id)
         video_url = "plugin://plugin.video.youtube/?path=/root/video&action=play_video&videoid=" + video_id
         return video_url
-    else:
-        return ""
+
+    video_id = lutil.find_first(html, pattern_youtube2)
+    if video_id:
+        lutil.log("attactv.play: We have found this Youtube video with pattern2: %s and let's going to play it!" % video_id)
+        video_url = "plugin://plugin.video.youtube/?path=/root/video&action=play_video&videoid=" + video_id
+        return video_url
+
+    return ""
 
 # This function try to get a Vimeo playable URL from the weblink and returns it ready to call the Vimeo plugin.
 def get_playable_vimeo_url(html):
@@ -187,5 +195,25 @@ def get_playable_kontexttv_url(html):
         return video_url
 
     return ""
+
+# This function try to get a Dailymotion playable URL from the weblink and returns it reay to play it directly.
+def get_playable_dailymotion_url(html):
+    pattern_dailymotion = ' src="http://www.dailymotion.com/embed/video/([^"]*?)"'
+    #pattern_daily_video = '"hd720URL":"(.+?)"'
+    pattern_daily_video = '"hqURL":"(.+?)"'
+
+    video_id = lutil.find_first(html, pattern_dailymotion)
+    if video_id:
+        lutil.log("attactv.play: We have found a Dailymotion video with id: '%s'" % video_id)
+        daily_url = "http://www.dailymotion.com/sequence/%s" % video_id
+        buffer_link = lutil.carga_web_dailymotion(daily_url)
+        video_url = lutil.find_first(buffer_link, pattern_daily_video)
+        if video_url:
+            video_url = video_url.replace('\\','')
+            lutil.log("attactv.play: We have found this Dailymotion video: '%s' and let's going to play it!" % video_url)
+            return video_url
+
+    return ""
+        
 
 run()
