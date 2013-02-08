@@ -1,3 +1,6 @@
+0.0.8
+- Added pattern for support the BlipTV embeded videos.
+- Now all the videos except three from local spanish TV channels are supported.
 0.0.7
 - Added support for Dailymotion videos.
 - Added pattern for support the Youtube embeded videos. 
