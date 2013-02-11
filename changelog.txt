@@ -1,3 +1,5 @@
+1.0.0
+- First official Eden release for repository.
 0.0.9
 - Added branch for Eden repository.
 - Updated versions of plugin dependencies.
