@@ -1,1 +1,4 @@
 *.pyc
+*.new
+*.mosquis
+*.org
