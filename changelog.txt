@@ -1,3 +1,6 @@
+1.1.14 (2019.01.20)
+- Updated add-on for Isengard+ due to missing add-on dependency.
+- Fixed video list due to spanish website changes.
 1.1.13 (2017.03.10)
 - Fixed scraper due to Dailymotion website changes.
 - Fixed scraper due to KontextTV website changes.
