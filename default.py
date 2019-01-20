@@ -52,7 +52,7 @@ if language == 'system':
     if syslanguage in trans_language:
         language = trans_language[syslanguage]
     else:
-        # If the system language is not supported in the attactv site we use the English version for the videos bye default.
+        # If the system language is not supported in the attactv site we use the English version for the videos by default.
         language = 'en'
 
 lutil.log("attactv.main language selected for videos: %s" % language)
@@ -70,11 +70,11 @@ def run():
     # Get params
     params = lutil.get_plugin_parms()
 
-    if params.get("action") is None:
-        create_index(params)
+    action = params.get("action", '')
+    if action:
+        eval("%s(params)" % action)
     else:
-        action = params.get("action")
-        exec action+"(params)"
+        create_index(params)
 
 
 # Main index menu
@@ -132,20 +132,40 @@ def main_list(params):
     # We check that there is no empty search result:
     if lutil.find_first(buffer_web, pattern_video_excerpt):
         lutil.log("attactv.main_list We have found an empty search result page page_url: %s" % page_url)
-        lutil.close_dir(pluginhandle)
-        return
+        return lutil.close_dir(pluginhandle)
+
+    # Extract video items from the html content
+    videolist = lutil.find_multiple(buffer_web,pattern_videos)
+
+    # This is a workaround for the spanish website as the former pages have no videos listed.
+    if len(videolist) == 0:
+        # This page has no videos content, we must continue on the next page.
+        lutil.log("attactv.main_list We have found an empty page video list: %s" % page_url)
+        next_page_url = lutil.find_first(buffer_web, pattern_nextpage)
+        next_page_num = lutil.find_first(next_page_url, pattern_page_num)
+        if next_page_url and int(next_page_num) < 12: # We must setup a limit.
+            lutil.log("attactv.main_list We continue on next page: %s" % next_page_url)
+            params['url'] = next_page_url.replace('&#038;', '&') # Fixup next_page on search.
+            return main_list(params)
+        else:
+            return lutil.close_dir(pluginhandle)
 
     # We must setup the previous page entry from the second page onwards.
     prev_page_url  = lutil.find_first(buffer_web, pattern_prevpage)
     if prev_page_url:
         prev_page_url = prev_page_url.replace('&#038;', '&') # Fixup prev_page on search.
         prev_page_num = lutil.find_first(prev_page_url, pattern_page_num)
-        reset_cache = "yes"
-        lutil.log("attactv.main_list Value of prev_page_url: %s" % prev_page_url)
-        lutil.addDir(action="main_list", title="<< %s (%s)" % (translation(30013), prev_page_num), url=prev_page_url, reset_cache=reset_cache)
-
-    # This is to force ".." option to go back to main index instead of previous page list.
-    updateListing = reset_cache == "yes"
+        if int(prev_page_num) > 1 and reset_cache != "yes":
+            # If there are former empty video pages we don't include the previous page the first time.
+            reset_cache = "yes"
+            updateListing = False
+        else:
+            reset_cache = "yes"
+            updateListing = True # This is to force ".." option to go back to main index instead of previous page list.
+            lutil.log("attactv.main_list Value of prev_page_url: %s" % prev_page_url)
+            lutil.addDir(action="main_list", title="<< %s (%s)" % (translation(30013), prev_page_num), url=prev_page_url, reset_cache=reset_cache)
+    else:
+        updateListing = False
 
     # Check for featured video in search result as first video in list.
     for featured_video, featured_title in lutil.find_multiple(buffer_web, pattern_featured):
@@ -153,10 +173,6 @@ def main_list(params):
         url = featured_video
         lutil.log('Featured video in search result: URL: "%s" Title: "%s"' % (url, title))
         lutil.addLink(action="play_video", title=title, url=url)
-
-
-    # Extract video items from the html content
-    videolist = lutil.find_multiple(buffer_web,pattern_videos)
 
     for url, title, thumbnail in videolist:
         title = title.replace('&quot;', '"').replace('&#039;', '´').replace('&amp;', '&').strip()  # Cleanup the title.
@@ -213,7 +229,7 @@ def get_playable_youtube_url(html):
         video_id = lutil.find_first(html, video_pattern)
         if video_id:
             lutil.log("attactv.play: We have found this Youtube video with pattern %s: %s and let's going to play it!" % (pattern_name, video_id))
-            video_url = "plugin://plugin.video.youtube/?path=/root/video&action=play_video&videoid=" + video_id
+            video_url = "plugin://plugin.video.youtube/play/?video_id=" + video_id
             return video_url
 
     return ""
